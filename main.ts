@@ -57,6 +57,9 @@ controller.up.onEvent(ControllerButtonEvent.Pressed, function () {
     true
     )
 })
+scene.onOverlapTile(SpriteKind.Player, assets.tile`deathblue`, function (sprite, location) {
+    game.gameOver(false)
+})
 controller.left.onEvent(ControllerButtonEvent.Pressed, function () {
     animation.runImageAnimation(
     mySprite,
@@ -116,6 +119,9 @@ controller.left.onEvent(ControllerButtonEvent.Pressed, function () {
     true
     )
 })
+scene.onOverlapTile(SpriteKind.Player, assets.tile`MEDKIT`, function (sprite, location) {
+    statusbar.value = 100
+})
 statusbars.onZero(StatusBarKind.Health, function (status) {
     game.gameOver(false)
 })
@@ -126,6 +132,10 @@ controller.right.onEvent(ControllerButtonEvent.Pressed, function () {
     200,
     true
     )
+})
+scene.onOverlapTile(SpriteKind.Player, sprites.castle.tilePath5, function (sprite, location) {
+    game.gameOver(true)
+    game.setGameOverEffect(true, effects.confetti)
 })
 controller.down.onEvent(ControllerButtonEvent.Pressed, function () {
     animation.runImageAnimation(
@@ -186,8 +196,16 @@ controller.down.onEvent(ControllerButtonEvent.Pressed, function () {
     true
     )
 })
+scene.onOverlapTile(SpriteKind.Player, assets.tile`myTile5`, function (sprite, location) {
+    game.gameOver(false)
+})
 sprites.onOverlap(SpriteKind.Player, SpriteKind.Food, function (sprite, otherSprite) {
     statusbar.value = 100
+})
+scene.onOverlapTile(SpriteKind.Player, sprites.dungeon.doorOpenNorth, function (sprite, location) {
+    tiles.setCurrentTilemap(tilemap`cutscene`)
+    tiles.placeOnRandomTile(mySprite, sprites.castle.tilePath5)
+    mySprite.sayText("FREEDOM")
 })
 sprites.onOverlap(SpriteKind.Player, SpriteKind.Enemy, function (sprite, otherSprite) {
     statusbar.value += -1
@@ -195,6 +213,7 @@ sprites.onOverlap(SpriteKind.Player, SpriteKind.Enemy, function (sprite, otherSp
 let myenemy: Sprite = null
 let statusbar: StatusBarSprite = null
 let mySprite: Sprite = null
+tiles.setCurrentTilemap(tilemap`level`)
 mySprite = sprites.create(img`
     . . . . f f f f . . . . . 
     . . f f f f f f f f . . . 
@@ -214,7 +233,7 @@ mySprite = sprites.create(img`
     . . . f f . . f f . . . . 
     `, SpriteKind.Player)
 controller.moveSprite(mySprite)
-tiles.setCurrentTilemap(tilemap`level`)
+tiles.placeOnRandomTile(mySprite, sprites.dungeon.collectibleInsignia)
 scene.cameraFollowSprite(mySprite)
 mySprite.sayText("where am i?", 1000, true)
 effects.blizzard.startScreenEffect()
