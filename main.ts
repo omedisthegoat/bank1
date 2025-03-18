@@ -247,6 +247,6 @@ for (let value of tiles.getTilesByType(assets.tile`Enemy Spawner`)) {
     myenemy.follow(mySprite, 60)
 }
 namespace userconfig {
-    export const ARCADE_SCREEN_WIDTH = 80
-    export const ARCADE_SCREEN_HEIGHT = 80
+    export const ARCADE_SCREEN_WIDTH = 60
+    export const ARCADE_SCREEN_HEIGHT = 60
 }
